@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Young Christian Assembly (YCA)</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Empowering Youth with Christ, Knowledge, and Opportunity</h1>
+      <p>Young Christian Assembly (YCA) nurtures a generation grounded in faith, skilled in technology, and dedicated to transforming communities.</p>
+      <a href="#contact" class="btn">Join Us</a>
+    </div>
+  </section>
+
+  <!-- WHAT WE DO -->
+  <section class="what-we-do">
+    <h2>What We Do</h2>
+    <div class="grid">
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/worship.jpg') }}" alt="Spiritual Growth">
+        <h3>Spiritual Growth</h3>
+        <p>Helping youth get along with Christ through prayer, study, and fellowship.</p>
+      </div>
+
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/coding.jpg') }}" alt="Tech Lessons">
+        <h3>Tech Lessons</h3>
+        <p>Equipping young people with modern digital and coding skills for a brighter future.</p>
+      </div>
+
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/bible-competition.jpg') }}" alt="Bible Competitions">
+        <h3>Bible Competitions</h3>
+        <p>Organizing national Bible quiz competitions that build knowledge and unity.</p>
+      </div>
+
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/charity.jpg') }}" alt="Helping the Needy">
+        <h3>Helping the Needy</h3>
+        <p>Extending compassion and resources to the less fortunate and disadvantaged.</p>
+      </div>
+
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/marathon.jpg') }}" alt="Youth Marathons">
+        <h3>Youth Marathons</h3>
+        <p>Encouraging physical fitness, teamwork, and unity through youth marathons.</p>
+      </div>
+
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/social.jpg') }}" alt="Social Interactions">
+        <h3>Social Interactions</h3>
+        <p>Creating safe and inspiring spaces for Christian fellowship and youth networking.</p>
+      </div>
+
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/storybooks.jpg') }}" alt="Bible Story Books">
+        <h3>Bible Story Books</h3>
+        <p>Printing and distributing inspiring Bible story books to children across the nation.</p>
+      </div>
+
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/internet.jpg') }}" alt="Internet Access">
+        <h3>Affordable Internet Access</h3>
+        <p>Providing affordable and reliable internet access to empower young people online.</p>
+      </div>
+
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/tourism.jpg') }}" alt="Tourism">
+        <h3>Youth Tourism</h3>
+        <p>Promoting cultural exploration and unity through youth tourism programs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAV LINKS -->
+  <section class="links">
+    <a href="/projects" class="nav-btn">Projects</a>
+    <a href="/future" class="nav-btn">Future Prospects</a>
+    <a href="/about" class="nav-btn">About Us</a>
+  </section>
+
+  <!-- CONTACT / SUBSCRIPTION FORM -->
+  <section id="contact" class="contact">
+    <h2>Get in Touch</h2>
+    <form action="/submit_form" method="POST">
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email Address" required>
+      <input type="text" name="whatsapp" placeholder="Phone Number" required>
+      <textarea name="message" placeholder="Your Message (optional)"></textarea>
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>© 2025 Young Christian Assembly (YCA). All rights reserved.</p>
+  </footer>
+
+  <!-- JS -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
