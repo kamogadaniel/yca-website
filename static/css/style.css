@@ -291,4 +291,118 @@ footer {
   .btn {
     padding: 10px 20px;
   }
+}/* ===== FUTURE PAGE ===== */
+.future-section {
+  padding: 140px 8% 80px;
+  text-align: center;
 }
+
+.future-section h1 {
+  color: #00b4d8;
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+}
+
+.future-section .subtitle {
+  color: #ccc;
+  margin-bottom: 50px;
+  font-size: 1.2rem;
+}
+
+.future-card {
+  background: rgba(255, 255, 255, 0.05);
+  margin-bottom: 60px;
+  border-radius: 20px;
+  padding: 30px;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.future-card:hover {
+  box-shadow: 0 0 25px gold;
+  transform: translateY(-6px);
+}
+
+.future-card .card-images {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+.future-card .card-images img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 1s;
+}
+
+.future-card .card-images img:hover {
+  transform: rotate(360deg);
+}
+
+.future-card .card-text h2 {
+  color: #00b4d8;
+  margin-bottom: 10px;
+  font-size: 1.7rem;
+}
+
+.future-card .card-text p {
+  color: #ddd;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Partnership form */
+.partner-form {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 15px rgba(0, 180, 216, 0.3);
+  max-width: 700px;
+  margin: 70px auto 0;
+}
+
+.partner-form h2 {
+  color: gold;
+  margin-bottom: 10px;
+}
+
+.partner-form p {
+  color: #ccc;
+  margin-bottom: 25px;
+}
+
+.partner-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.partner-form input,
+.partner-form textarea {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.partner-form button {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #00b4d8, gold);
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.partner-form button:hover {
+  background: linear-gradient(90deg, gold, #00b4d8);
+}
+

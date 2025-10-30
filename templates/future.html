@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Future | YCA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script defer src="{{ url_for('static', filename='js/future.js') }}"></script>
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="YCA Logo" class="logo">
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('projects') }}">Projects</a></li>
+                <li><a href="{{ url_for('future') }}" class="active">Future</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="future-section">
+        <h1>YCA Future Prospects</h1>
+        <p class="subtitle">Our vision for the next generation of Christian youth</p>
+
+        <div class="future-card">
+            <div class="card-images">
+                <img src="{{ url_for('static', filename='images/bus1.jpg') }}" alt="Tour Bus">
+                <img src="{{ url_for('static', filename='images/bus2.jpg') }}" alt="Traveling Youth">
+                <img src="{{ url_for('static', filename='images/bus3.jpg') }}" alt="Tour Group">
+            </div>
+            <div class="card-text">
+                <h2>YCA Tour Bus</h2>
+                <p>We envision a modern tour bus designed to carry youth across the nation for outreach, missions, and tourism. The YCA bus will represent unity, mobility, and evangelism — reaching schools, communities, and churches across borders.</p>
+            </div>
+        </div>
+
+        <div class="future-card">
+            <div class="card-images">
+                <img src="{{ url_for('static', filename='images/tower1.jpg') }}" alt="YCA Tower">
+                <img src="{{ url_for('static', filename='images/tower2.jpg') }}" alt="Construction">
+                <img src="{{ url_for('static', filename='images/tower3.jpg') }}" alt="Building Vision">
+            </div>
+            <div class="card-text">
+                <h2>YCA Tower</h2>
+                <p>The YCA Tower will be a beacon of light — housing tech labs, Bible study halls, and administrative offices. It will stand as a symbol of faith-driven innovation and a hub for youth empowerment.</p>
+            </div>
+        </div>
+
+        <div class="future-card">
+            <div class="card-images">
+                <img src="{{ url_for('static', filename='images/partner1.jpg') }}" alt="Global Partners">
+                <img src="{{ url_for('static', filename='images/partner2.jpg') }}" alt="International Network">
+                <img src="{{ url_for('static', filename='images/partner3.jpg') }}" alt="Youth Partnerships">
+            </div>
+            <div class="card-text">
+                <h2>International Partnerships</h2>
+                <p>We aim to collaborate with Christian organizations and sponsors abroad to strengthen outreach, education, and digital evangelism through global cooperation.</p>
+            </div>
+        </div>
+
+        <div class="future-card">
+            <div class="card-images">
+                <img src="{{ url_for('static', filename='images/school1.jpg') }}" alt="YCA Secondary School">
+                <img src="{{ url_for('static', filename='images/school2.jpg') }}" alt="Students">
+                <img src="{{ url_for('static', filename='images/school3.jpg') }}" alt="Classroom">
+            </div>
+            <div class="card-text">
+                <h2>YCA Secondary School</h2>
+                <p>We plan to establish a physical Christian secondary school that integrates faith, technology, and moral leadership — raising a generation grounded in both wisdom and innovation.</p>
+            </div>
+        </div>
+
+        <div class="future-card">
+            <div class="card-images">
+                <img src="{{ url_for('static', filename='images/tech1.jpg') }}" alt="Tech Youth">
+                <img src="{{ url_for('static', filename='images/tech2.jpg') }}" alt="Coding Session">
+                <img src="{{ url_for('static', filename='images/tech3.jpg') }}" alt="Tech Jobs">
+            </div>
+            <div class="card-text">
+                <h2>Tech Jobs and Innovation</h2>
+                <p>Through our training and partnerships, YCA seeks to connect skilled youth to tech jobs, startup opportunities, and mentorship programs — building a Christian-driven digital economy.</p>
+            </div>
+        </div>
+
+        <!-- Partnership Form -->
+        <div class="partner-form">
+            <h2>Become a Partner or Sponsor</h2>
+            <p>Join us in building the future of YCA by funding or supporting one of our projects.</p>
+            <form id="partnerForm">
+                <input type="text" id="name" placeholder="Your Full Name" required>
+                <input type="email" id="email" placeholder="Your Email" required>
+                <input type="tel" id="phone" placeholder="Phone Number" required>
+                <textarea id="reason" rows="4" placeholder="Why are you interested?" required></textarea>
+                <input type="number" id="amount" placeholder="How much can you fund (in USD)?" required>
+                <button type="submit">Submit Partnership</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Youth Christian Association | Built with Faith & Purpose</p>
+    </footer>
+</body>
+</html>
