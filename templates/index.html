@@ -9,6 +9,12 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+  <header class="site-header">
+    <a href="/">
+      <img src="{{ url_for('static', filename='images/yca-logo.png') }}" alt="YCA Logo" class="logo">
+    </a>
+  </header>
+  
   <!-- HERO SECTION -->
   <section class="hero">
     <div class="hero-content">
@@ -88,7 +94,8 @@
   <!-- CONTACT / SUBSCRIPTION FORM -->
   <section id="contact" class="contact">
     <h2>Get in Touch</h2>
-    <form action="/submit_form" method="POST">
+    <form id="contactForm" action="/subscribe" method="POST">
+
       <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email Address" required>
       <input type="text" name="whatsapp" placeholder="Phone Number" required>
@@ -98,6 +105,12 @@
   </section>
 
   <footer>
+    <P>CEO, YOUNG CHRISTIAN ASSEMBLY</P>
+    <p>KAMOGA DANIEL MUWANGUZI BAHATI</p>
+    <p>Reach out: 0708773962</p>
+    <p>info@youngchristianassembly.org</p>
+    <p>youngchristianassembly@gmail.com</p>
+    <p>www.youngchristianassembly.com</p>
     <p>© 2025 Young Christian Assembly (YCA). All rights reserved.</p>
   </footer>
 

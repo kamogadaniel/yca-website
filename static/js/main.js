@@ -1,67 +1,45 @@
-// ===== CUSTOM CURSOR EFFECT =====
-const cursor = document.createElement("div");
-cursor.classList.add("custom-cursor");
-document.body.appendChild(cursor);
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("contactForm");
 
-document.addEventListener("mousemove", e => {
-  cursor.style.left = e.pageX + "px";
-  cursor.style.top = e.pageY + "px";
-});
+  // Make sure the form exists
+  if (!form) return;
 
-// ===== SMOOTH SCROLLING FOR LINKS =====
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener("click", function(e) {
-    e.preventDefault();
-    document.querySelector(this.getAttribute("href")).scrollIntoView({
-      behavior: "smooth"
-    });
-  });
-});
-
-// ===== SCROLL REVEAL ANIMATION =====
-const revealElements = document.querySelectorAll(".card, .hero-content, .contact");
-const revealOnScroll = () => {
-  const triggerBottom = window.innerHeight * 0.85;
-  revealElements.forEach(el => {
-    const rect = el.getBoundingClientRect();
-    if (rect.top < triggerBottom) {
-      el.classList.add("visible");
-    }
-  });
-};
-window.addEventListener("scroll", revealOnScroll);
-revealOnScroll();
-
-// ===== FORM SUBMISSION (AJAX) =====
-const form = document.querySelector("form");
-
-if (form) {
   form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // stop default form submission
 
     const formData = new FormData(form);
-    const response = await fetch("/submit_form", {
-      method: "POST",
-      body: formData,
-    });
+    const data = Object.fromEntries(formData.entries());
 
-    if (response.ok) {
-      alert("✅ Message sent successfully! You’ll be contacted soon.");
-      form.reset();
-    } else {
-      alert("❌ Something went wrong. Please try again.");
+    try {
+      // Send data as JSON to Flask
+      const response = await fetch("/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        alert("✅ Thank you! Your message has been sent successfully.");
+        form.reset();
+      } else {
+        alert("⚠️ Something went wrong. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("⚠️ Network error. Please check your connection.");
     }
   });
-}
+});
+document.addEventListener("mousemove", (e) => {
+  const logo = document.querySelector(".site-header .logo");
+  if (!logo) return;
 
-// ===== GLOW EFFECT ON BUTTONS =====
-const buttons = document.querySelectorAll(".btn");
-buttons.forEach(btn => {
-  btn.addEventListener("mousemove", e => {
-    const rect = btn.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    btn.style.setProperty("--x", `${x}px`);
-    btn.style.setProperty("--y", `${y}px`);
-  });
+  const x = e.clientX;
+  const y = e.clientY;
+  const rect = logo.getBoundingClientRect();
+  const offsetX = x - (rect.left + rect.width / 2);
+  const offsetY = y - (rect.top + rect.height / 2);
+
+  logo.style.transform = `scale(1.15) rotate(${offsetX / 20}deg)`;
+  logo.style.filter = `drop-shadow(${offsetX / 10}px ${offsetY / 10}px 20px #00ff88) drop-shadow(${-offsetX / 10}px ${-offsetY / 10}px 25px #6a00ff)`;
 });

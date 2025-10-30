@@ -1,100 +1,151 @@
 from flask import Flask, render_template, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail, Message
-from twilio.rest import Client
+import sqlite3
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import requests
 import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
 
-# ====== CONFIGURATION ======
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/contacts.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# Email setup (you can use Gmail or another SMTP)
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.getenv('MAIL_USER')  # your email address
-app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASS')  # your app password
-
-db = SQLAlchemy(app)
-mail = Mail(app)
-
-# Twilio setup (WhatsApp)
-TWILIO_SID = os.getenv('TWILIO_SID')
-TWILIO_AUTH = os.getenv('TWILIO_AUTH')
-TWILIO_FROM = 'whatsapp:+14155238886'  # Twilio sandbox
-MY_WHATSAPP = 'whatsapp:+256XXXXXXXXX'  # your WhatsApp number with country code
-client = Client(TWILIO_SID, TWILIO_AUTH)
+# ==== CONFIG ====
+DB_PATH = "database/contacts.db"
+WHATSAPP_API_URL = "https://graph.facebook.com/v20.0"
+WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN")
+PHONE_NUMBER_ID = os.getenv("YOUR_PHONE_NUMBER_ID")
+EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
 
-# ====== DATABASE MODEL ======
-class Contact(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    email = db.Column(db.String(120))
-    whatsapp = db.Column(db.String(50))
-    message = db.Column(db.Text)
-
-with app.app_context():
-    db.create_all()
-
-
-# ====== ROUTES ======
-@app.route('/')
-def home():
-    return render_template('index.html')
-
-@app.route('/projects')
-def projects():
-    return render_template('projects.html')
-
-@app.route('/future')
-def future():
-    return render_template('future.html')
-
-@app.route('/about')
-def about():
-    return render_template('about.html')
+# ==== DATABASE SETUP ====
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS contacts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            whatsapp TEXT NOT NULL,
+            message TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
 
 
-# ====== FORM SUBMISSION ======
-@app.route('/submit_form', methods=['POST'])
-def submit_form():
+# ==== WHATSAPP FUNCTION ====
+def send_whatsapp_message(name, email, whatsapp, message):
+    if not (WHATSAPP_TOKEN and PHONE_NUMBER_ID):
+        print("⚠️ Missing WhatsApp credentials in .env")
+        return
+
+    url = f"{WHATSAPP_API_URL}/{PHONE_NUMBER_ID}/messages"
+    headers = {
+        "Authorization": f"Bearer {WHATSAPP_TOKEN}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "messaging_product": "whatsapp",
+        "to": "YOUR_PERSONAL_WHATSAPP_NUMBER",  # replace with your verified number
+        "type": "text",
+        "text": {
+            "body": f"📩 New YCA Contact:\n\n👤 Name: {name}\n📧 Email: {email}\n📱 WhatsApp: {whatsapp}\n📝 Message: {message}"
+        }
+    }
+
+    response = requests.post(url, headers=headers, json=payload)
+    if response.status_code != 200:
+        print("❌ WhatsApp message failed:", response.text)
+    else:
+        print("✅ WhatsApp message sent successfully.")
+
+
+# ==== EMAIL FUNCTION ====
+def send_confirmation_email(recipient_email, recipient_name):
+    if not (EMAIL_ADDRESS and EMAIL_PASSWORD):
+        print("⚠️ Missing email credentials in .env")
+        return
+
     try:
-        name = request.form['name']
-        email = request.form['email']
-        whatsapp = request.form['whatsapp']
-        message = request.form.get('message', '')
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = "Thank You for Reaching Out to YCA!"
+        msg["From"] = EMAIL_ADDRESS
+        msg["To"] = recipient_email
 
-        # Save to database
-        new_contact = Contact(name=name, email=email, whatsapp=whatsapp, message=message)
-        db.session.add(new_contact)
-        db.session.commit()
+        html = f"""
+        <html>
+        <body style="font-family: Arial; color: #333;">
+            <h2>Dear {recipient_name},</h2>
+            <p>Thank you for contacting <b>Young Christian Assembly (YCA)</b>! 🌟</p>
+            <p>We’ve received your message and will get back to you soon.</p>
+            <p>Stay blessed,<br><b>The YCA Team</b></p>
+        </body>
+        </html>
+        """
 
-        # Send confirmation email to user
-        msg = Message(
-            subject="Thank You for Contacting YCA!",
-            sender=app.config['MAIL_USERNAME'],
-            recipients=[email],
-            body=f"Hello {name},\n\nWe’re glad you reached out to Young Christian Assembly! "
-                 f"Our team will contact you soon.\n\nGod bless you!\nYCA Team"
-        )
-        mail.send(msg)
+        msg.attach(MIMEText(html, "html"))
 
-        # Send WhatsApp message to you (admin)
-        client.messages.create(
-            from_=TWILIO_FROM,
-            to=MY_WHATSAPP,
-            body=f"📩 New YCA Contact:\nName: {name}\nEmail: {email}\nWhatsApp: {whatsapp}\nMessage: {message}"
-        )
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()
+            server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            server.send_message(msg)
 
-        return jsonify({"success": True}), 200
-
+        print("✅ Confirmation email sent.")
     except Exception as e:
-        print("Error:", e)
-        return jsonify({"success": False, "error": str(e)}), 500
+        print("❌ Email sending failed:", e)
 
 
-if __name__ == '__main__':
+# ==== ROUTES ====
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+@app.route("/projects")
+def projects():
+    return render_template("projects.html")
+
+
+@app.route("/future")
+def future():
+    return render_template("future.html")
+
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+
+@app.route("/subscribe", methods=["POST"])
+def subscribe():
+    data = request.get_json()
+    name = data.get("name")
+    email = data.get("email")
+    whatsapp = data.get("whatsapp")
+    message = data.get("message", "")
+
+    # Save to database
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("INSERT INTO contacts (name, email, whatsapp, message) VALUES (?, ?, ?, ?)",
+              (name, email, whatsapp, message))
+    conn.commit()
+    conn.close()
+
+    # Send WhatsApp message
+    send_whatsapp_message(name, email, whatsapp, message)
+
+    # Send confirmation email
+    send_confirmation_email(email, name)
+
+    return jsonify({"status": "success"})
+
+
+if __name__ == "__main__":
+    init_db()
     app.run(debug=True)
