@@ -57,7 +57,7 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  background: linear-gradient(135deg, rgba(0, 255, 128, 0.1), rgba(128, 0, 255, 0.1));
+  background: linear-gradient(135deg, rgba(5, 167, 19, 0.1), rgba(120, 8, 248, 0.1));
   position: relative;
 }
 
@@ -304,13 +304,13 @@ footer {
 }
 
 .future-section .subtitle {
-  color: #ccc;
+  color: rgb(231, 157, 157);
   margin-bottom: 50px;
   font-size: 1.2rem;
 }
 
 .future-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(8, 156, 15, 0.05);
   margin-bottom: 60px;
   border-radius: 20px;
   padding: 30px;
@@ -357,10 +357,10 @@ footer {
 
 /* Partnership form */
 .partner-form {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(63, 6, 110, 0.4);
   padding: 40px;
   border-radius: 20px;
-  box-shadow: 0 0 15px rgba(0, 180, 216, 0.3);
+  box-shadow: 0 0 15px rgba(221, 189, 8, 0.3);
   max-width: 700px;
   margin: 70px auto 0;
 }
