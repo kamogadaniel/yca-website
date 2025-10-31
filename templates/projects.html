@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YCA Projects</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/projects.js') }}"></script>
+</head>
+<body>
+  <header>
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="YCA Logo" class="logo">
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('projects') }}" class="active">Projects</a></li>
+        <li><a href="{{ url_for('future') }}">Future</a></li>
+        <li><a href="{{ url_for('about') }}">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="projects-section">
+    <h1>YCA Projects</h1>
+    <p class="subtitle">Faith in action through innovation and empowerment</p>
+
+    <div class="project-card from-left">
+      <div class="card-images">
+        <img src="{{ url_for('static', filename='images/bible1.jpg') }}" alt="Bible Competition">
+        <img src="{{ url_for('static', filename='images/bible2.jpg') }}" alt="Students Competing">
+        <img src="{{ url_for('static', filename='images/bible3.jpg') }}" alt="Church Teams">
+      </div>
+      <div class="card-text">
+        <h2>National Bible Competitions</h2>
+        <p>Churches and schools form teams of 10 to compete in annual Bible competitions, practicing all year using the YCA Bible Quiz website. The goal: spread the Word through learning and fellowship.</p>
+      </div>
+    </div>
+
+    <div class="project-card from-right">
+      <div class="card-images">
+        <img src="{{ url_for('static', filename='images/infinity1.jpg') }}" alt="Infinity Access App">
+        <img src="{{ url_for('static', filename='images/infinity2.jpg') }}" alt="VPS Setup">
+        <img src="{{ url_for('static', filename='images/infinity3.jpg') }}" alt="Internet Access">
+      </div>
+      <div class="card-text">
+        <h2>Infinity Access</h2>
+        <p>An app that provides unlimited daily internet access at 2000 UGX using VPS and WireGuard technology — bridging digital gaps for youth and schools affordably.</p>
+      </div>
+    </div>
+
+    <div class="project-card from-left">
+      <div class="card-images">
+        <img src="{{ url_for('static', filename='images/school1.jpg') }}" alt="YCA School">
+        <img src="{{ url_for('static', filename='images/school2.jpg') }}" alt="Online Learning">
+        <img src="{{ url_for('static', filename='images/school3.jpg') }}" alt="AI Learning">
+      </div>
+      <div class="card-text">
+        <h2>YCA School</h2>
+        <p>An online secondary school platform with notes, quizzes, AI-powered tutoring, and progress tracking — enabling every student to learn and grow anytime, anywhere.</p>
+      </div>
+    </div>
+
+    <div class="project-card from-right">
+      <div class="card-images">
+        <img src="{{ url_for('static', filename='images/hotspot1.jpg') }}" alt="Wi-Fi Hotspot">
+        <img src="{{ url_for('static', filename='images/hotspot2.jpg') }}" alt="Captive Portal">
+        <img src="{{ url_for('static', filename='images/hotspot3.jpg') }}" alt="Community WiFi">
+      </div>
+      <div class="card-text">
+        <h2>YCA Hotspots</h2>
+        <p>We set up public Wi-Fi hotspots across Ugandan regions with captive portals to provide affordable access and promote YCA’s educational and faith-driven platforms.</p>
+      </div>
+    </div>
+
+    <div class="project-card from-left">
+      <div class="card-images">
+        <img src="{{ url_for('static', filename='images/techgen1.jpg') }}" alt="Tech Gen">
+        <img src="{{ url_for('static', filename='images/techgen2.jpg') }}" alt="Coding Class">
+        <img src="{{ url_for('static', filename='images/techgen3.jpg') }}" alt="Programming Courses">
+      </div>
+      <div class="card-text">
+        <h2>Tech Gen</h2>
+        <p>An online platform dedicated to teaching programming and tech courses — empowering Christian youth with digital skills for the modern world.</p>
+      </div>
+    </div>
+
+    <div class="project-card from-right">
+      <div class="card-images">
+        <img src="{{ url_for('static', filename='images/mlops1.jpg') }}" alt="MLOps Training">
+        <img src="{{ url_for('static', filename='images/mlops2.jpg') }}" alt="AI Systems">
+        <img src="{{ url_for('static', filename='images/mlops3.jpg') }}" alt="Machine Learning Engineers">
+      </div>
+      <div class="card-text">
+        <h2>MLOps Engineer Training</h2>
+        <p>Training and mentoring MLOps engineers with hands-on cloud deployment skills — preparing them for global tech jobs and empowering digital missionaries.</p>
+      </div>
+    </div>
+
+    <div class="project-card from-left">
+      <div class="card-images">
+        <img src="{{ url_for('static', filename='images/dataai1.jpg') }}" alt="Data Entry AI">
+        <img src="{{ url_for('static', filename='images/dataai2.jpg') }}" alt="AI Camera">
+        <img src="{{ url_for('static', filename='images/dataai3.jpg') }}" alt="Digitizing Documents">
+      </div>
+      <div class="card-text">
+        <h2>Data Entry AI</h2>
+        <p>An AI-powered camera app that converts handwritten documents into digital templates — revolutionizing data entry in schools and institutions.</p>
+      </div>
+    </div>
+
+    <div class="project-card from-right">
+      <div class="card-images">
+        <img src="{{ url_for('static', filename='images/handbible1.jpg') }}" alt="Handwritten Bible">
+        <img src="{{ url_for('static', filename='images/handbible2.jpg') }}" alt="Writing Scripture">
+        <img src="{{ url_for('static', filename='images/handbible3.jpg') }}" alt="Faith Movement">
+      </div>
+      <div class="card-text">
+        <h2>Handwritten Bible</h2>
+        <p>A national faith initiative where each person handwrites one verse — creating a collective handwritten Bible, symbolizing unity and devotion across Uganda.</p>
+      </div>
+    </div>
+
+    <!-- Bottom Form -->
+    <div class="project-form">
+      <div class="form-tabs">
+        <button class="tab active" data-target="newProject">Submit New Project</button>
+        <button class="tab" data-target="partnerProject">Partner on Project</button>
+      </div>
+
+      <div id="newProject" class="form-content active">
+        <h2>Submit a New Project Idea</h2>
+        <form id="newProjectForm">
+          <input type="text" id="projectName" placeholder="Project Name" required>
+          <input type="text" id="submittedBy" placeholder="Your Name" required>
+          <textarea id="projectDesc" rows="4" placeholder="Project Description" required></textarea>
+          <button type="submit">Submit Project</button>
+        </form>
+      </div>
+
+      <div id="partnerProject" class="form-content">
+        <h2>Partner on an Existing Project</h2>
+        <form id="partnerProjectForm">
+          <input type="text" id="partnerName" placeholder="Your Full Name" required>
+          <input type="email" id="partnerEmail" placeholder="Email" required>
+          <input type="text" id="projectInterest" placeholder="Project Name" required>
+          <input type="number" id="partnerAmount" placeholder="Amount to Fund (USD)" required>
+          <button type="submit">Submit Partnership</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>YOUNG CHRISTIAN ASSEMBLY</p>
+    <p>P.O.Box 7158</p>
+    <p>Kampala, Uganda</p>
+    <p>info@youngchristianassembly.org</p>
+    <p>youngchristianassembly@gmail.com</p>
+    <p>www.youngchristianassembly.com</p>
+        <p>© 2025 Youth Christian Association | Built with Faith & Purpose</p>
+    
+  </footer>
+</body>
+</html>

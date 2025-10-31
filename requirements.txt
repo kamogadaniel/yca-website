@@ -2,3 +2,10 @@ flask
 flask_mail
 requests
 python-dotenv
+
+
+
+
+
+
+

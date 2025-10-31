@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Future | YCA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script defer src="{{ url_for('static', filename='js/future.js') }}"></script>
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="YCA Logo" class="logo">
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('projects') }}">Projects</a></li>
+                <li><a href="{{ url_for('future') }}" class="active">Future</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="hero-text">
+    <h1>Young Christian Assembly (YCA)</h1>
+    <p>Building faith, innovation, and community.</p>
+  </div>
+</section>
+
+<!-- SUMMARY SECTION -->
+<section class="summary">
+  <div class="summary-overlay">
+    <div class="summary-content">
+      <h2>About Us</h2>
+      <p>
+        YCA is a youth-centered Christian organization empowering young people
+        spiritually, academically, and technologically — uniting churches and schools across the nation.
+      </p>
+      <button id="seeMembersBtn" class="btn">See the Members</button>
+    </div>
+  </div>
+</section>
+
+<!-- BOARD OF GOVERNORS -->
+<section class="board-section">
+  <h2>Board of Governors</h2>
+  <div class="board-grid">
+    {% for i in range(6) %}
+    <div class="board-card float">
+      <img src="{{ url_for('static', filename='images/governor' ~ i ~ '.jpg') }}" alt="Governor">
+      <h3>Governor {{ i+1 }}</h3>
+      <p>Board Member</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="apply-form">
+    <h3>Apply to Become a Board Member</h3>
+    <form id="governorForm">
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="text" name="credentials" placeholder="Credentials (e.g., Degree, Experience)" required>
+      <textarea name="letter" placeholder="Write a brief application letter" rows="4" required></textarea>
+      <button type="submit" class="btn">Submit Application</button>
+    </form>
+  </div>
+</section>
+
+<!-- EMPLOYEES -->
+<section class="employees-section">
+  <h2>Our Employees</h2>
+  <div class="employee-slider">
+    {% for i in range(10) %}
+    <div class="employee-card slide-left">
+      <img src="{{ url_for('static', filename='images/employee' ~ i ~ '.jpg') }}" alt="Employee">
+      <h3>Employee {{ i+1 }}</h3>
+      <p>Job Title</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="apply-form">
+    <h3>Apply to Join as an Employee</h3>
+    <form id="employeeForm">
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="text" name="credentials" placeholder="Qualifications" required>
+      <textarea name="letter" placeholder="Write a brief application letter" rows="4" required></textarea>
+      <button type="submit" class="btn">Submit Application</button>
+    </form>
+  </div>
+</section>
+
+<!-- MEMBERS -->
+<section id="members-section" class="members-section">
+  <h2>Our Members</h2>
+  <div class="members-grid">
+    {% for i in range(12) %}
+    <div class="member-card">
+      <img src="{{ url_for('static', filename='images/member' ~ i ~ '.jpg') }}" alt="Member">
+      <h3>Member {{ i+1 }}</h3>
+      <p>Church Name</p>
+    </div>
+    {% endfor %}
+  </div>
+  <a href="/#subscribe" class="btn gold">Become a Member</a>
+</section>
+
+</body>
+</html>
