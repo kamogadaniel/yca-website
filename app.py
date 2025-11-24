@@ -1,154 +1,190 @@
 from flask import Flask, render_template, request, jsonify
-import sqlite3
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-import requests
-import os
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
 
-# ==== CONFIG ====
-DB_PATH = "database/contacts.db"
-WHATSAPP_API_URL = "https://graph.facebook.com/v20.0"
-WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN")
-PHONE_NUMBER_ID = os.getenv("YOUR_PHONE_NUMBER_ID")
-EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
-EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+# ----------------------------------------------------
+# 🔧 EMAIL CONFIGURATION (change to your real email)
+# ----------------------------------------------------
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'YOUR_EMAIL@gmail.com'  # CHANGE THIS
+app.config['MAIL_PASSWORD'] = 'YOUR_APP_PASSWORD'      # CHANGE THIS
+app.config['MAIL_DEFAULT_SENDER'] = 'YOUR_EMAIL@gmail.com'
 
+mail = Mail(app)
 
-# ==== DATABASE SETUP ====
-def init_db():
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute("""
-        CREATE TABLE IF NOT EXISTS contacts (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT NOT NULL,
-            whatsapp TEXT NOT NULL,
-            message TEXT
-        )
-    """)
-    conn.commit()
-    conn.close()
-
-
-# ==== WHATSAPP FUNCTION ====
-def send_whatsapp_message(name, email, whatsapp, message):
-    if not (WHATSAPP_TOKEN and PHONE_NUMBER_ID):
-        print("⚠️ Missing WhatsApp credentials in .env")
-        return
-
-    url = f"{WHATSAPP_API_URL}/{PHONE_NUMBER_ID}/messages"
-    headers = {
-        "Authorization": f"Bearer {WHATSAPP_TOKEN}",
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "messaging_product": "whatsapp",
-        "to": "YOUR_PERSONAL_WHATSAPP_NUMBER",  # replace with your verified number
-        "type": "text",
-        "text": {
-            "body": f"📩 New YCA Contact:\n\n👤 Name: {name}\n📧 Email: {email}\n📱 WhatsApp: {whatsapp}\n📝 Message: {message}"
-        }
-    }
-
-    response = requests.post(url, headers=headers, json=payload)
-    if response.status_code != 200:
-        print("❌ WhatsApp message failed:", response.text)
-    else:
-        print("✅ WhatsApp message sent successfully.")
-
-
-# ==== EMAIL FUNCTION ====
-def send_confirmation_email(recipient_email, recipient_name):
-    if not (EMAIL_ADDRESS and EMAIL_PASSWORD):
-        print("⚠️ Missing email credentials in .env")
-        return
-
-    try:
-        msg = MIMEMultipart("alternative")
-        msg["Subject"] = "Thank You for Reaching Out to YCA!"
-        msg["From"] = EMAIL_ADDRESS
-        msg["To"] = recipient_email
-
-        html = f"""
-        <html>
-        <body style="font-family: Arial; color: #333;">
-            <h2>Dear {recipient_name},</h2>
-            <p>Thank you for contacting <b>Young Christian Assembly (YCA)</b>! 🌟</p>
-            <p>We’ve received your message and will get back to you soon.</p>
-            <p>Stay blessed,<br><b>The YCA Team</b></p>
-        </body>
-        </html>
-        """
-
-        msg.attach(MIMEText(html, "html"))
-
-        with smtplib.SMTP("smtp.gmail.com", 587) as server:
-            server.starttls()
-            server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-            server.send_message(msg)
-
-        print("✅ Confirmation email sent.")
-    except Exception as e:
-        print("❌ Email sending failed:", e)
-
-
-# ==== ROUTES ====
+# ----------------------------------------------------
+# 🌐 ROUTES FOR WEB PAGES
+# ----------------------------------------------------
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/future")
+def future():
+    return render_template("future.html")
+
+@app.route("/about")
+def about():
+    employees = [
+        {"name": "Kamoga Daniel", "job": "Lead Developer", "img": "employee1.jpg"},
+        {"name": "Sarah K", "job": "Chief Councillor", "img": "employee2.jpg"},
+        {"name": "Daniel K", "job": "Lead pastor", "img": "employee3.jpg"},
+        {"name": "Grace L", "job": "UI/UX Designer", "img": "employee4.jpg"},
+        {"name": "Andrew M", "job": "Sales Officer", "img": "employee5.jpg"},
+        {"name": "Andrew M", "job": "Chief Advisor", "img": "employee5.jpg"},
+        {"name": "Wayero Colline", "job": "Marketing Manager", "img": "employee5.jpg"},
+        {"name": "Damba Matthuis", "job": "Music leader", "img": "employee5.jpg"},
+        {"name": "Andrew M", "job": "Backend Engineer", "img": "employee5.jpg"},
+        {"name": "Kabarokore Rolyne", "job": "Publicity minister", "img": "employee5.jpg"},
+    ]
+
+    members = [
+        {"name": "Peter Moses", "church": "Watoto Church", "img": "member1.jpg"},
+        {"name": "Ninsiima Nicole", "church": "Gaba Community Church", "img": "member2.jpg"},
+        {"name": "Kamoga Daniel", "church": "Makerere Full Gospel", "img": "member3.jpg"},
+        {"name": "Joshua Mussiime", "church": "Makerere Full Gospel", "img": "member3.jpg"},
+        {"name": "Jonah K", "church": "Makerere Full Gospel", "img": "member3.jpg"},
+        {"name": "Mulondo Apolloo", "church": "Makerere Full Gospel", "img": "member3.jpg"},
+        {"name": "Nsubuga Timothy", "church": "Makerere Full Gospel", "img": "member3.jpg"},
+        {"name": "Nambejja Christine", "church": "Makerere Full Gospel", "img": "member3.jpg"},
+        {"name": "Esther Suubi", "church": "Makerere Full Gospel", "img": "member3.jpg"},
+        {"name": "Ntale Jonah", "church": "Makerere Full Gospel", "img": "member3.jpg"},
+        {"name": "Nimungu", "church": "Makerere Full Gospel", "img": "member3.jpg"},
+        {"name": "Samuel K", "church": "Makerere Full Gospel", "img": "member3.jpg"},
+    ]
+
+    return render_template("about.html", employees=employees, members=members)
 
 
 @app.route("/projects")
 def projects():
     return render_template("projects.html")
 
-
-@app.route("/future")
-def future():
-    return render_template("future.html")
-
-
-
-
-
-@app.route("/about")
-def about():
-    return render_template("about.html")
-
-
-@app.route("/subscribe", methods=["POST"])
-def subscribe():
-    data = request.get_json()
-    name = data.get("name")
-    email = data.get("email")
-    whatsapp = data.get("whatsapp")
-    message = data.get("message", "")
-
-    # Save to database
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute("INSERT INTO contacts (name, email, whatsapp, message) VALUES (?, ?, ?, ?)",
-              (name, email, whatsapp, message))
-    conn.commit()
-    conn.close()
-
-    # Send WhatsApp message
-    send_whatsapp_message(name, email, whatsapp, message)
-
-    # Send confirmation email
-    send_confirmation_email(email, name)
-
-    return jsonify({"status": "success"})
+# ====================================================
+# 📩 EMAIL SENDING HELP FUNCTION
+# ====================================================
+def send_form_email(subject, content):
+    try:
+        msg = Message(subject, recipients=[app.config['MAIL_USERNAME']])
+        msg.body = content
+        mail.send(msg)
+        return True
+    except Exception as e:
+        print("Email error:", e)
+        return False
 
 
+# ====================================================
+# 🟡 1. PARTNERSHIP FORM
+# ====================================================
+@app.route("/send_partner", methods=["POST"])
+def send_partner():
+    name = request.form["name"]
+    email = request.form["email"]
+    phone = request.form["phone"]
+    reason = request.form["reason"]
+    amount = request.form["amount"]
+
+    content = f"""
+    NEW PARTNERSHIP REQUEST
+
+    Name: {name}
+    Email: {email}
+    Phone: {phone}
+    Reason for Interest: {reason}
+    Amount They Can Fund: {amount}
+    """
+
+    if send_form_email("New Partner Submission", content):
+        return jsonify({"message": "Your partnership request has been sent successfully!"})
+    return jsonify({"message": "Failed to send your request. Try again."}), 500
+
+
+# ====================================================
+# 🟢 2. BOARD OF GOVERNORS APPLICATION FORM
+# (FIXED to match HTML)
+# ====================================================
+@app.route("/send_board_application", methods=["POST"])
+def send_board_application():
+    fullname = request.form["name"]  # FIXED
+    email = request.form["email"]
+    credentials = request.form["credentials"]
+    letter = request.form["letter"]
+
+    content = f"""
+    NEW BOARD OF GOVERNORS APPLICATION
+
+    Full Name: {fullname}
+    Email: {email}
+    Credentials: {credentials}
+
+    Application Letter:
+    {letter}
+    """
+
+    if send_form_email("Board of Governors Application", content):
+        return jsonify({"message": "Your application has been sent successfully!"})
+    return jsonify({"message": "Failed to send application."}), 500
+
+
+# ====================================================
+# 🔵 3. EMPLOYEE APPLICATION FORM
+# (FIXED to match HTML)
+# ====================================================
+@app.route("/send_employee_application", methods=["POST"])
+def send_employee_application():
+    fullname = request.form["name"]  # FIXED
+    email = request.form["email"]
+    credentials = request.form["credentials"]
+    letter = request.form["letter"]
+
+    content = f"""
+    NEW EMPLOYEE APPLICATION
+
+    Full Name: {fullname}
+    Email: {email}
+    Qualifications: {credentials}
+
+    Application Letter:
+    {letter}
+    """
+
+    if send_form_email("Employee Job Application", content):
+        return jsonify({"message": "Your application has been delivered successfully!"})
+    return jsonify({"message": "Failed to send your application."}), 500
+
+
+# ====================================================
+# 🔴 4. MEMBER REGISTRATION FORM
+# ====================================================
+@app.route("/send_member", methods=["POST"])
+def send_member():
+    fullname = request.form["fullname"]
+    email = request.form["email"]
+    phone = request.form["phone"]
+    church = request.form["church"]
+    reason = request.form["reason"]
+
+    content = f"""
+    NEW MEMBER REGISTRATION
+
+    Full Name: {fullname}
+    Email: {email}
+    Phone: {phone}
+    Church: {church}
+    Reason for Joining: {reason}
+    """
+
+    if send_form_email("New Member Registration", content):
+        return jsonify({"message": "Your membership request has been sent!"})
+    return jsonify({"message": "Failed to send your registration."}), 500
+
+
+# ----------------------------------------------------
+# 🚀 RUN THE APP
+# ----------------------------------------------------
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True)

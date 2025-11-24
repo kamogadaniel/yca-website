@@ -75,13 +75,16 @@
 <section class="employees-section">
   <h2>Our Employees</h2>
   <div class="employee-slider">
-    {% for i in range(12) %}
-    <div class="employee-card slide-left">
-      <img src="{{ url_for('static', filename='images/employee' ~ i ~ '.jpg') }}" alt="Employee">
-      <h3>Employee {{ i+1 }}</h3>
-      <p>Job Title</p>
-    </div>
-    {% endfor %}
+   
+{% for emp in employees %}
+<div class="employee-card">
+    <img src="{{ url_for('static', filename='images/' + emp.img) }}" alt="{{ emp.name }}">
+    <h3>{{ emp.name }}</h3>
+    <p>{{ emp.job }}</p>
+</div>
+{% endfor %}
+
+
   </div>
 
   <div class="apply-form">
@@ -100,13 +103,16 @@
 <section id="members-section" class="members-section">
   <h2>Our Members</h2>
   <div class="members-grid">
-    {% for i in range(30) %}
-    <div class="member-card">
-      <img src="{{ url_for('static', filename='images/member' ~ i ~ '.jpg') }}" alt="Member">
-      <h3>Member {{ i+1 }}</h3>
-      <p>Church Name</p>
-    </div>
-    {% endfor %}
+    
+{% for m in members %}
+<div class="member-card">
+    <img src="{{ url_for('static', filename='images/' + m.img) }}" alt="{{ m.name }}">
+    <h3>{{ m.name }}</h3>
+    <p>{{ m.church }}</p>
+</div>
+{% endfor %}
+
+
   </div>
   <a href="/#contact" class="btn gold">Become a Member</a>
 </section>

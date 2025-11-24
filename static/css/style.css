@@ -414,6 +414,16 @@ footer {
   padding: 140px 8% 80px;
   text-align: center;
 }
+.projects-section h1 {
+  color:rgb(183, 156, 3)
+  
+  
+
+}
+
+.projects-section p {
+  color:rgb(3, 105, 17)
+}
 
 .project-card {
   background: rgba(38, 160, 8, 0.05);
@@ -892,3 +902,24 @@ section h2::after {
     min-width: 160px;
   }
 }
+
+
+
+/* BOARD OF GOVERNORS */
+.board-card h3,
+.board-card p {
+    color: #2ecc71; /* Green */
+}
+
+/* EMPLOYEES */
+.employee-card h3,
+.employee-card p {
+    color: #2ecc71; /* Green */
+}
+
+/* MEMBERS */
+.member-card h3,
+.member-card p {
+    color: #2ecc71; /* Green */
+}
+
