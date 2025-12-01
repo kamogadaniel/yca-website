@@ -29,16 +29,17 @@ def future():
 @app.route("/about")
 def about():
     employees = [
-        {"name": "Kamoga Daniel", "job": "Lead Developer", "img": "employee1.jpg"},
-        {"name": "Sarah K", "job": "Chief Councillor", "img": "employee2.jpg"},
-        {"name": "Daniel K", "job": "Lead pastor", "img": "employee3.jpg"},
-        {"name": "Grace L", "job": "UI/UX Designer", "img": "employee4.jpg"},
-        {"name": "Andrew M", "job": "Sales Officer", "img": "employee5.jpg"},
-        {"name": "Andrew M", "job": "Chief Advisor", "img": "employee5.jpg"},
-        {"name": "Wayero Colline", "job": "Marketing Manager", "img": "employee5.jpg"},
-        {"name": "Damba Matthuis", "job": "Music leader", "img": "employee5.jpg"},
-        {"name": "Andrew M", "job": "Backend Engineer", "img": "employee5.jpg"},
-        {"name": "Kabarokore Rolyne", "job": "Publicity minister", "img": "employee5.jpg"},
+        {"name": "Kamoga Daniel", "job": "Executive Director", "img": "kamoga.jpg"},
+        {"name": "Ninsiima Nicole", "job": "Chief Councillor", "img": "ninsiima.jpg"},
+        {"name": "Mugagga Fortune", "job": "Finance manager", "img": "mugagga.jpg"},
+        {"name": "Kigonya Jonah", "job": "Lead pastor", "img": "kamoga.jpg"},
+        {"name": "Kakumba Jibril", "job": "UI/UX Designer", "img": "kakumba.jpg"},
+        {"name": "Faith Zion", "job": "Sales Officer", "img": "zion.jpg"},
+        {"name": "Nsubuga Timothy", "job": "Chief Advisor", "img": "nsubuga.jpg"},
+        {"name": "Wayero Colline", "job": "Marketing Manager", "img": "wayero.jpg"},
+        {"name": "Damba Matthuis", "job": "Music leader", "img": "damba.jpg"},
+        {"name": "Ajit Matama", "job": "Backend Engineer", "img": "ajit.jpg"},
+        {"name": "Kabarokore Rolyne", "job": "Publicity minister", "img": "kabarokore.jpg"},
     ]
 
     members = [
@@ -54,6 +55,12 @@ def about():
         {"name": "Ntale Jonah", "church": "Makerere Full Gospel", "img": "member3.jpg"},
         {"name": "Nimungu", "church": "Makerere Full Gospel", "img": "member3.jpg"},
         {"name": "Samuel K", "church": "Makerere Full Gospel", "img": "member3.jpg"},
+        {"name": "Mugagga Fortune", "church": "Naalya Anglican church", "img": "member3.jpg"},
+        {"name": "Ngonzi Lisa", "church": "Makerere Full Gospel", "img": "member3.jpg"},
+        {"name": "Kainomugisha Trina", "church": "Makerere Full Gospel", "img": "member3.jpg"},
+        {"name": "Nabulo Elizabeth", "church": "Makerere Full Gospel", "img": "member3.jpg"},
+        {"name": "Muhozi Angel", "church": "Makerere Full Gospel", "img": "member3.jpg"},
+        
     ]
 
     return render_template("about.html", employees=employees, members=members)
@@ -155,6 +162,61 @@ def send_employee_application():
     if send_form_email("Employee Job Application", content):
         return jsonify({"message": "Your application has been delivered successfully!"})
     return jsonify({"message": "Failed to send your application."}), 500
+
+
+# ====================================================
+# 🔵 5. NEW PROJECT SUBMISSION FORM
+# ====================================================
+@app.route("/send_project_submission", methods=["POST"])
+def send_project_submission():
+    title = request.form["title"]
+    owner = request.form["owner"]
+    email = request.form["email"]
+    description = request.form["description"]
+
+    content = f"""
+    NEW PROJECT SUBMISSION
+
+    Project Title: {title}
+    Project Owner: {owner}
+    Email: {email}
+
+    Project Description:
+    {description}
+    """
+
+    if send_form_email("New Project Submission", content):
+        return jsonify({"message": "Your project has been submitted successfully!"})
+    return jsonify({"message": "Failed to submit your project. Try again."}), 500
+
+# ====================================================
+# 🟡 6. PARTNER ON PROJECT FORM
+# ====================================================
+@app.route("/send_project_partner", methods=["POST"])
+def send_project_partner():
+    fullname = request.form["fullname"]
+    email = request.form["email"]
+    phone = request.form["phone"]
+    project = request.form["project"]
+    offer = request.form["offer"]
+
+    content = f"""
+    NEW PROJECT PARTNERSHIP REQUEST
+
+    Full Name: {fullname}
+    Email: {email}
+    Phone: {phone}
+
+    Project They Want to Partner On:
+    {project}
+
+    What They Offer:
+    {offer}
+    """
+
+    if send_form_email("Project Partnership Request", content):
+        return jsonify({"message": "Your partnership request has been received!"})
+    return jsonify({"message": "Failed to send partnership request."}), 500
 
 
 # ====================================================

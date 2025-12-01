@@ -79,3 +79,14 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 });
+
+
+fetch("/send_project_submission", {
+    method: "POST",
+    body: new FormData(this)
+});
+
+fetch("/send_project_partner", {
+    method: "POST",
+    body: new FormData(this)
+});
